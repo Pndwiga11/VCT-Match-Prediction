@@ -68,13 +68,15 @@ def scrape_match_details(html):
     """Scrape details of a single match from its URL."""
     
     soup = BeautifulSoup(html, 'html.parser')
-    match_data = []
+    
+    def clean_text(text):
+            return text.replace('\t', '').replace('\n', '').strip()
     
     try:
         # Extract teams
         team_names = soup.find_all('div', class_='wf-title-med')
-        team_a = team_names[0].text.strip()
-        team_b = team_names[1].text.strip()
+        team_a = clean_text(team_names[0].text)
+        team_b = clean_text(team_names[1].text)
 
         # Extract scores
         team_scores = soup.find_all('div', class_='js-spoiler')
@@ -83,21 +85,18 @@ def scrape_match_details(html):
 
         # Extract date
         match_date_list = soup.find('div', class_='moment-tz-convert').text.strip()
-        match_date = soup.find('div', class_='match-header-date').text.strip()
 
-        match_data.append({
+        return {
             'Team A': team_a,
             'Team B': team_b,
             'Score A': team_a_score,
             'Score B': team_b_score,
             'Date': match_date_list
-        })
+        }
     except AttributeError:
         print(f"Failed to parse details from url")
         return None
     
-    return match_data
-
 def scrape_tournament_history(html):
     """Scrape all matches from a tournament page and return detailed data."""
 
