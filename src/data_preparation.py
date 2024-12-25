@@ -1,4 +1,6 @@
 import requests
+import time
+import random
 from bs4 import BeautifulSoup
 import pandas as pd
 
@@ -113,12 +115,13 @@ def scrape_tournament_history(html):
         match_html = base_url + link['href']  # Construct full URL
         match_html_content = fetch_html(match_html)
         
-        #print(f"Scraping match: {link_num}")
+        print(f"Scraping match: {link_num} of {len(match_links)}")
         link_num += 1
         match_details = scrape_match_details(match_html_content)
         #match_details = False
         if match_details:
             match_data.append(match_details)
+        time.sleep(random.uniform(2, 10)) # Sleep for a random delay of 2-10 seconds
     return match_data
 
 
