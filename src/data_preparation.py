@@ -86,7 +86,16 @@ def scrape_match_details(html):
         # Extract date
         match_date_list = soup.find('div', class_='moment-tz-convert').text.strip()
 
+        # Match Outcome
+        if team_a_score > team_b_score:
+            outcome = 1
+        elif team_b_score > team_a_score:
+            outcome = -1
+        else:
+            outcome = 0
+            
         return {
+            'Outcome': outcome,
             'Team A': team_a,
             'Team B': team_b,
             'Score A': team_a_score,
@@ -134,10 +143,10 @@ def save_to_csv(data, filename):
 if __name__ == '__main__':
     base_url = 'https://www.vlr.gg/9109/100-thieves-vs-the-five-emperors-champions-tour-north-america-stage-1-challengers-1-ro128'  # Example VLR URL
     html_content = fetch_html(base_url)
-    tournament_url = 'https://www.vlr.gg/event/matches/291/champions-tour-north-america-stage-1-challengers-1/?series_id=all'
+    tournament_url = 'https://www.vlr.gg/event/matches/306/champions-tour-north-america-stage-1-challengers-2/?series_id=all'
     tournament_html_content = fetch_html(tournament_url)
     
     if html_content:
         match_data = scrape_tournament_history(tournament_html_content)
         #match_data = scrape_match_details(html_content)
-        save_to_csv(match_data, 'data/matches.csv')
+        save_to_csv(match_data, 'data/2021_VCT_NA_Stage1Challengers2.csv')
