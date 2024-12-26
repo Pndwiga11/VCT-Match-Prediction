@@ -5,3 +5,4 @@ tensorflow
 scikit-learn
 beautifulsoup4
 requests
+joblib
