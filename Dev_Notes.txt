@@ -1,1 +1,3 @@
 - Look for line 21 and 93
+- Training 1 (Challengers 1) Validation R^2 Score: -1.15
+- Training 2 (Challengers 1 + 2) Validation R^2 Score: -0.22

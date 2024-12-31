@@ -44,6 +44,6 @@ def predict(model_path, test_data_path, train_data_path):
 if __name__ == "__main__":
     # Example paths (adjust as needed)
     model_path = "models/random_forest_model.pkl"
-    test_data_path = "data/2021_VCT_NA_Stage1Challengers2.csv"
-    train_data_path = "data/2021_VCT_NA_Stage1Challengers1.csv"
+    test_data_path = "data/2021_VCT_NA_Stage1Challengers3.csv"
+    train_data_path = "data/combined_tournaments.csv"
     predict(model_path, test_data_path, train_data_path)

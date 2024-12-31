@@ -39,4 +39,4 @@ def train_model(data_path, model_path):
 
 # Main entry point
 if __name__ == "__main__":
-    train_model("data/2021_VCT_NA_Stage1Challengers1.csv", "models/random_forest_model.pkl")
+    train_model("data/combined_tournaments.csv", "models/random_forest_model.pkl")
