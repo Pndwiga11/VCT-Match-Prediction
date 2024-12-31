@@ -13,57 +13,6 @@ def fetch_html(url):
         print(f"Failed to fetch {url}")
         return None
 
-# Function to parse matches from HTML
-def parse_matches(html):
-    soup = BeautifulSoup(html, 'html.parser')
-    match_data = []
-
-    # Example: Scraping match info from VLR.gg
-    matches_cards = soup.find_all('div', class_='wf-card')
-    #matches_dates = soup.find_all('div', class_='wf-label.mod-large')
-    
-    tally = -1
-    # matches = matches_card.find_all('div', class_='match-item-vs')  # Adjust this based on actual HTML structure
-    for match_group in matches_cards:
-        tally += 1
-        try:
-            matches = match_group.find_all('div', class_='match-item-vs')  # Adjust this based on actual HTML structure
-            #match_date = matches_dates[0].text.strip()
-            #match_date = 12
-            for match in matches:
-                try:
-                    team_names = match.find_all('div', class_='text-of')
-                    team_scores = match.find_all('div', class_='match-item-vs-team-score')
-                    
-                    team_a = team_names[0].text.strip()  # Team A is always the first
-                    team_b = team_names[1].text.strip()  # Team B is always the second
-                    team_a_score = team_scores[0].text.strip()  # Team B is always the second
-                    team_b_score = team_scores[1].text.strip()  # Team B is always the second
-                    match_data.append({
-                        'Team A': team_a,
-                        'Team B': team_b,
-                        'Score A': team_a_score,
-                        'Score B': team_b_score,
-                        #'Date': match_date
-                    })
-                except AttributeError:
-                    print("inner error")
-                    continue  # Skip if any field is missing
-                
-                
-            #match_details = match.find('div', class_='match-item-vs-team mod-winner').text.strip()
-            
-            #score_a = match.find('div', class_='match-item-time').text.strip()
-            #score_b = match.find('div', class_='match-item-time').text.strip()
-           # date = match.find('div', class_='match-item-time').text.strip()
-
-            
-        except AttributeError:
-            print("outer error")
-            continue  # Skip if any field is missing
-
-    return match_data
-
 def scrape_match_details(html):
     """Scrape details of a single match from its URL."""
     
@@ -132,6 +81,21 @@ def scrape_tournament_history(html):
         time.sleep(random.uniform(2, 10)) # Sleep for a random delay of 2-10 seconds
     return match_data
 
+def combine_tournaments(file1, file2, output_file):
+    try:
+        # Load both datasets
+        df1 = pd.read_csv(file1)
+        df2 = pd.read_csv(file2)
+
+        # Combine datasets
+        combined_df = pd.concat([df1, df2], ignore_index=True)
+
+        # Save to the specified output file
+        combined_df.to_csv(output_file, index=False)
+        print(f"Combined dataset saved to {output_file}")
+    except Exception as e:
+        print(f"An error occurred while combining files: {e}")
+
 
 # Function to save data to CSV
 def save_to_csv(data, filename):
@@ -141,12 +105,15 @@ def save_to_csv(data, filename):
 
 # Main script
 if __name__ == '__main__':
-    base_url = 'https://www.vlr.gg/9109/100-thieves-vs-the-five-emperors-champions-tour-north-america-stage-1-challengers-1-ro128'  # Example VLR URL
-    html_content = fetch_html(base_url)
     tournament_url = 'https://www.vlr.gg/event/matches/306/champions-tour-north-america-stage-1-challengers-2/?series_id=all'
     tournament_html_content = fetch_html(tournament_url)
     
-    if html_content:
-        match_data = scrape_tournament_history(tournament_html_content)
-        #match_data = scrape_match_details(html_content)
-        save_to_csv(match_data, 'data/2021_VCT_NA_Stage1Challengers2.csv')
+    file1 = "data/2021_VCT_NA_Stage1Challengers1.csv"
+    file2 = "data/2021_VCT_NA_Stage1Challengers2.csv"
+    output_file = "data/combined_tournaments.csv"
+    
+    combine_tournaments(file1, file2, output_file)
+    
+    #if tournament_html_content:
+        #match_data = scrape_tournament_history(tournament_html_content)
+        #save_to_csv(match_data, 'data/2021_VCT_NA_Stage1Challengers2.csv')
