@@ -1,0 +1,4 @@
+2021_VCT_NA_Stage1Challengers1: 'https://www.vlr.gg/event/matches/291/champions-tour-north-america-stage-1-challengers-1/?series_id=all'
+2021_VCT_NA_Stage1Challengers2: 'https://www.vlr.gg/event/matches/306/champions-tour-north-america-stage-1-challengers-2/?series_id=all'
+2021_VCT_NA_Stage1Challengers3: 'https://www.vlr.gg/event/matches/324/champions-tour-north-america-stage-1-challengers-3/?series_id=all'
+2021_VCT_NA_Stage1Masters: 'https://www.vlr.gg/event/matches/333/champions-tour-north-america-stage-1-masters/?series_id=all'

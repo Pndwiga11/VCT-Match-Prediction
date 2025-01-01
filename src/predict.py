@@ -13,12 +13,18 @@ def predict(model_path, test_data_path, train_data_path):
     # Load the training and test data
     train_df = pd.read_csv(train_data_path)
     test_df = pd.read_csv(test_data_path)
+    
+    # Convert Date column to datetime and extract 'Day'
+    train_df['Date'] = pd.to_datetime(train_df['Date'])
+    train_df['Day'] = train_df['Date'].dt.day
+    test_df['Date'] = pd.to_datetime(test_df['Date'])
+    test_df['Day'] = test_df['Date'].dt.day
 
     # Preprocess the test data using the team mapping
     train_df, test_df, _ = preprocess_teams(train_df, test_df)
 
     # Define features (X)
-    X_test = test_df[['Team A', 'Team B']]
+    X_test = test_df[['Team A', 'Team B', 'Day']]
 
     # Predict scores
     y_pred = model.predict(X_test)

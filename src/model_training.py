@@ -11,10 +11,14 @@ from sklearn.ensemble import RandomForestRegressor
 def train_model(data_path, model_path):
     # Load and preprocess data
     df = pd.read_csv(data_path)
+    
+    df['Date'] = pd.to_datetime(df['Date'])  # Convert Date to datetime
+    df['Day'] = df['Date'].dt.day  # Extract the day
+    
     train_df, _, team_mapping = preprocess_teams(df, df)
 
     # Define features (X) and targets (y)
-    X = train_df[['Team A', 'Team B']]
+    X = train_df[['Team A', 'Team B', 'Day']]
     y = train_df[['Score A', 'Score B']]
 
     # Split data into training and validation sets
