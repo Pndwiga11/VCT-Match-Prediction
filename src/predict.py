@@ -30,13 +30,22 @@ def predict(model_path, test_data_path, train_data_path):
         lambda row: 1 if row['Predicted Score A'] > row['Predicted Score B'] else -1, axis=1
     )
 
-    # Evaluate predictions
+    # Evaluate predictions and print accuracy with fraction
     accuracy = accuracy_score(test_df['Outcome'], test_df['Predicted Outcome'])
-    print(f"Accuracy: {accuracy:.2f}")
+    total_predictions = len(test_df)
+    correct_predictions = (test_df['Outcome'] == test_df['Predicted Outcome']).sum()
+    print(f"\nOverall Accuracy: {accuracy:.2f} ({correct_predictions}/{total_predictions})\n")
+    
+    # Decode team names
+    reverse_mapping = {v: k for k, v in team_mapping.items()}
+    test_df['Decoded Team A'] = test_df['Team A'].map(reverse_mapping)
+    test_df['Decoded Team B'] = test_df['Team B'].map(reverse_mapping)
 
-    # Print predictions vs actual scores for debugging
-    print("Sample Predictions:")
-    print(test_df[['Team A', 'Team B', 'Predicted Score A', 'Predicted Score B', 'Outcome', 'Predicted Outcome']].head())
+    # Find incorrect predictions
+    print("\nIncorrect Predictions:")
+    incorrect_predictions = test_df[test_df['Outcome'] != test_df['Predicted Outcome']]
+    #print(incorrect_predictions[['Decoded Team A', 'Decoded Team B', 'Score A', 'Score B', 'Predicted Score A', 'Predicted Score B', 'Outcome', 'Predicted Outcome']])
+    print(incorrect_predictions[['Decoded Team A', 'Decoded Team B', 'Outcome', 'Predicted Outcome']])
 
     return test_df
 

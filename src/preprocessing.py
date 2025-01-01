@@ -1,8 +1,8 @@
 import pandas as pd
 
 def preprocess_teams(train_df, test_df):
-    print("Train Columns:", train_df.columns)
-    print("Test Columns:", test_df.columns)
+    #print("Train Columns:", train_df.columns)
+    #print("Test Columns:", test_df.columns)
     # Create mapping from training data
     team_mapping = {team: idx for idx, team in enumerate(pd.concat([train_df['Team A'], train_df['Team B']]).unique())}
 
