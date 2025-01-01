@@ -57,6 +57,8 @@ def scrape_match_details(html):
         maps_dirty = [map_.text.strip() for map_ in maps_section]
         maps = [clean_text(map_)[1:] for map_ in maps_dirty]
         maps = maps[1:]
+        maps = [np.nan if map_ == "N/A" else map_ for map_ in maps] # Replace "N/A" with np.nan
+        maps = [np.nan if map_ == "Map Advantage" else map_ for map_ in maps] # Replace "Map Advantage" with np.nan
         
         while len(maps) < 5:
             maps.append(np.nan)
@@ -143,5 +145,5 @@ if __name__ == '__main__':
 
     if tournament_html_content:
         match_data = scrape_tournament_history(tournament_html_content)
-        save_to_csv(match_data, 'data/test.csv')
+        save_to_csv(match_data, 'data/2021_VCT_NA_Stage1Masters.csv')
     
