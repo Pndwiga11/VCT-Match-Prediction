@@ -21,6 +21,9 @@ def scrape_match_details(html):
     def clean_text(text):
             return text.replace('\t', '').replace('\n', '').strip()
     
+    def clean_bestof_text(text):
+        return text[2]
+    
     try:
         # Extract teams
         team_names = soup.find_all('div', class_='wf-title-med')
@@ -43,14 +46,19 @@ def scrape_match_details(html):
             outcome = -1
         else:
             outcome = 0
-            
+        
+        # Best Of
+        best_of_list = soup.find_all('div', class_='match-header-vs-note')
+        best_of = clean_bestof_text(best_of_list[1].text.strip())
+        
         return {
             'Outcome': outcome,
             'Team A': team_a,
             'Team B': team_b,
             'Score A': team_a_score,
             'Score B': team_b_score,
-            'Date': match_date
+            'Date': match_date,
+            'Best Of': best_of
         }
     except AttributeError:
         print(f"Failed to parse details from url")
@@ -106,18 +114,18 @@ def save_to_csv(data, filename):
 
 # Main script
 if __name__ == '__main__':
-    tournament_url = 'https://www.vlr.gg/event/matches/324/champions-tour-north-america-stage-1-challengers-3/?series_id=all'
+    tournament_url = 'https://www.vlr.gg/event/matches/333/champions-tour-north-america-stage-1-masters/?series_id=all'
     tournament_html_content = fetch_html(tournament_url)
     
     file1 = "data/combined_tournaments.csv"
     file2 = "data/2021_VCT_NA_Stage1Challengers3.csv"
     output_file = "data/combined_tournaments.csv"
     
-    combine_tournaments(file1, file2, output_file)
+    #combine_tournaments(file1, file2, output_file)
     
 
 
-    #if tournament_html_content:
-        #match_data = scrape_tournament_history(tournament_html_content)
-        #save_to_csv(match_data, 'data/2021_VCT_NA_Stage1Challengers3.csv')
+    if tournament_html_content:
+        match_data = scrape_tournament_history(tournament_html_content)
+        save_to_csv(match_data, 'data/test.csv')
     
