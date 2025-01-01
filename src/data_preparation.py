@@ -3,6 +3,7 @@ import time
 import random
 from bs4 import BeautifulSoup
 import pandas as pd
+import numpy as np
 
 # Function to fetch HTML content
 def fetch_html(url):
@@ -51,6 +52,15 @@ def scrape_match_details(html):
         best_of_list = soup.find_all('div', class_='match-header-vs-note')
         best_of = clean_bestof_text(best_of_list[1].text.strip())
         
+        # Maps
+        maps_section = soup.find_all('div', class_='vm-stats-gamesnav-item') 
+        maps_dirty = [map_.text.strip() for map_ in maps_section]
+        maps = [clean_text(map_)[1:] for map_ in maps_dirty]
+        maps = maps[1:]
+        
+        while len(maps) < 5:
+            maps.append(np.nan)
+        
         return {
             'Outcome': outcome,
             'Team A': team_a,
@@ -58,8 +68,14 @@ def scrape_match_details(html):
             'Score A': team_a_score,
             'Score B': team_b_score,
             'Date': match_date,
-            'Best Of': best_of
+            'Best Of': best_of,
+            'Map 1': maps[0],
+            'Map 2': maps[1],
+            'Map 3': maps[2],
+            'Map 4': maps[3],
+            'Map 5': maps[4],
         }
+        
     except AttributeError:
         print(f"Failed to parse details from url")
         return None
