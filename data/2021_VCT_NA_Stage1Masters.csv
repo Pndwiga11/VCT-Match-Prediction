@@ -1,15 +1,15 @@
 Outcome,Team A,Team B,Score A,Score B,Date
-1,Envy,Gen.G,2,1,"Thursday, March 11th"
--1,XSET,FaZe Clan,0,2,"Thursday, March 11th"
-1,Sentinels,Luminosity,2,1,"Friday, March 12th"
--1,Immortals,100 Thieves,0,2,"Friday, March 12th"
-1,Gen.G,XSET,2,0,"Saturday, March 13th"
-1,Luminosity,Immortals,2,1,"Saturday, March 13th"
--1,Envy,FaZe Clan,0,2,"Sunday, March 14th"
-1,Sentinels,100 Thieves,2,0,"Sunday, March 14th"
--1,100 Thieves,Gen.G,0,2,"Friday, March 19th"
-1,Envy,Luminosity,2,0,"Friday, March 19th"
--1,FaZe Clan,Sentinels,0,2,"Friday, March 19th"
-1,Gen.G,Envy,2,1,"Saturday, March 20th"
-1,FaZe Clan,Gen.G,2,0,"Saturday, March 20th"
-1,Sentinels,FaZe Clan,3,0,"Sunday, March 21st"
+1,Envy,Gen.G,2,1,2021-03-11
+-1,XSET,FaZe Clan,0,2,2021-03-11
+1,Sentinels,Luminosity,2,1,2021-03-12
+-1,Immortals,100 Thieves,0,2,2021-03-12
+1,Gen.G,XSET,2,0,2021-03-13
+1,Luminosity,Immortals,2,1,2021-03-13
+-1,Envy,FaZe Clan,0,2,2021-03-14
+1,Sentinels,100 Thieves,2,0,2021-03-14
+-1,100 Thieves,Gen.G,0,2,2021-03-19
+1,Envy,Luminosity,2,0,2021-03-19
+-1,FaZe Clan,Sentinels,0,2,2021-03-19
+1,Gen.G,Envy,2,1,2021-03-20
+1,FaZe Clan,Gen.G,2,0,2021-03-20
+1,Sentinels,FaZe Clan,3,0,2021-03-21

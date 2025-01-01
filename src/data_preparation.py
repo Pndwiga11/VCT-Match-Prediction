@@ -33,7 +33,8 @@ def scrape_match_details(html):
         team_b_score = team_scores[0].text.strip()[33]
 
         # Extract date
-        match_date_list = soup.find('div', class_='moment-tz-convert').text.strip()
+        match_date_element = soup.find('div', class_='moment-tz-convert')
+        match_date = match_date_element['data-utc-ts'].split(' ')[0]  # Extract the date (YYYY-MM-DD)
 
         # Match Outcome
         if team_a_score > team_b_score:
@@ -49,7 +50,7 @@ def scrape_match_details(html):
             'Team B': team_b,
             'Score A': team_a_score,
             'Score B': team_b_score,
-            'Date': match_date_list
+            'Date': match_date
         }
     except AttributeError:
         print(f"Failed to parse details from url")
