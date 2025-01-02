@@ -5,10 +5,14 @@ from preprocessing import preprocess_teams  # Import the preprocessing function
 
 # Load and preprocess the test data
 def predict(model_path, test_data_path, train_data_path):
-    # Load the model and team mapping
+    # Load the model and mappings
     model = joblib.load(model_path)
-    mapping_path = model_path.replace('.pkl', '_team_mapping.pkl')
-    team_mapping = joblib.load(mapping_path)
+    team_mapping_path = model_path.replace('.pkl', '_team_mapping.pkl')
+    team_mapping = joblib.load(team_mapping_path)
+
+    map_mapping_path = model_path.replace('.pkl', '_map_mapping.pkl')
+    map_mapping = joblib.load(map_mapping_path)
+    reverse_map_mapping = {v: k for k, v in map_mapping.items()}  # Reverse mapping for decoding
 
     # Load the training and test data
     train_df = pd.read_csv(train_data_path)
@@ -22,9 +26,13 @@ def predict(model_path, test_data_path, train_data_path):
 
     # Preprocess the test data using the team mapping
     train_df, test_df, _ = preprocess_teams(train_df, test_df)
+    
+    # Preprocess maps using the loaded map mapping
+    for col in ['Map 1', 'Map 2', 'Map 3', 'Map 4', 'Map 5']:
+        test_df[col] = test_df[col].map(lambda x: map_mapping[x] if x in map_mapping else -1).astype(int)
 
     # Define features (X)
-    X_test = test_df[['Team A', 'Team B', 'Day']]
+    X_test = test_df[['Team A', 'Team B', 'Day', 'Best Of']]
 
     # Predict scores
     y_pred = model.predict(X_test)
@@ -43,10 +51,16 @@ def predict(model_path, test_data_path, train_data_path):
     print(f"\nOverall Accuracy: {accuracy:.2f} ({correct_predictions}/{total_predictions})\n")
     
     # Decode team names
-    reverse_mapping = {v: k for k, v in team_mapping.items()}
-    test_df['Decoded Team A'] = test_df['Team A'].map(reverse_mapping)
-    test_df['Decoded Team B'] = test_df['Team B'].map(reverse_mapping)
+    reverse_team_mapping = {v: k for k, v in team_mapping.items()}
+    test_df['Decoded Team A'] = test_df['Team A'].map(reverse_team_mapping)
+    test_df['Decoded Team B'] = test_df['Team B'].map(reverse_team_mapping)
 
+    # Decode predicted maps
+    reverse_map_mapping = {v: k for k, v in map_mapping.items()}
+    for col in ['Predicted Map 1', 'Predicted Map 2', 'Predicted Map 3', 'Predicted Map 4', 'Predicted Map 5']:
+        if col in test_df:  # Ensure the column exists before decoding
+            test_df[f'Decoded {col}'] = test_df[col].map(reverse_map_mapping)
+    
     # Find incorrect predictions
     print("\nIncorrect Predictions:")
     incorrect_predictions = test_df[test_df['Outcome'] != test_df['Predicted Outcome']]
