@@ -55,13 +55,9 @@ def scrape_match_details(html):
         # Maps
         maps_section = soup.find_all('div', class_='vm-stats-gamesnav-item') 
         maps_dirty = [map_.text.strip() for map_ in maps_section]
-        maps = [clean_text(map_)[1:] for map_ in maps_dirty]
-        maps = maps[1:]
-        maps = [np.nan if map_ == "N/A" else map_ for map_ in maps] # Replace "N/A" with np.nan
-        maps = [np.nan if map_ == "Map Advantage" else map_ for map_ in maps] # Replace "Map Advantage" with np.nan
-        
-        while len(maps) < 5:
-            maps.append(np.nan)
+        map_pool = [clean_text(map_)[1:] for map_ in maps_dirty]
+        map_pool = map_pool[1:]
+        map_pool = [map_ for map_ in map_pool if map_ not in ["N/A", "Map Advantage"]] # Remove all "N/A" and "Map Advantage"     
         
         return {
             'Outcome': outcome,
@@ -71,11 +67,7 @@ def scrape_match_details(html):
             'Score B': team_b_score,
             'Date': match_date,
             'Best Of': best_of,
-            'Map 1': maps[0],
-            'Map 2': maps[1],
-            'Map 3': maps[2],
-            'Map 4': maps[3],
-            'Map 5': maps[4],
+            'Map Pool': map_pool
         }
         
     except AttributeError:
@@ -139,11 +131,9 @@ if __name__ == '__main__':
     file2 = "data/2021_VCT_NA_Stage1Challengers3.csv"
     output_file = "data/combined_tournaments.csv"
     
-    combine_tournaments(file1, file2, output_file)
+    #combine_tournaments(file1, file2, output_file)
     
-
-
-    #if tournament_html_content:
-        #match_data = scrape_tournament_history(tournament_html_content)
-        #save_to_csv(match_data, 'data/2021_VCT_NA_Stage1Masters.csv')
+    if tournament_html_content:
+        match_data = scrape_tournament_history(tournament_html_content)
+        save_to_csv(match_data, 'data/2021_VCT_NA_Stage1Masters.csv')
     
