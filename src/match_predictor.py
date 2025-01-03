@@ -64,9 +64,9 @@ if __name__ == "__main__":
     team_mapping_path = "models/random_forest_model_team_mapping.pkl"
     map_mapping_path = "models/random_forest_model_map_mapping.pkl"
     
-    team_a = "XSET"
-    team_b = "FaZe Clan"
-    date = "2025-03-11" #YYYY-MM-DD
+    team_a = "Immortals"
+    team_b = "100 Thieves"
+    date = "2021-03-12" #YYYY-MM-DD
     best_of = 3
 
     predict_match(model_path, team_mapping_path, map_mapping_path, team_a, team_b, date, best_of)
