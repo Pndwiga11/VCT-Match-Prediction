@@ -23,9 +23,9 @@ def view_map_mapping(map_mapping_path):
         print(f"An error occurred while loading the map mapping: {e}")
 
 if __name__ == "__main__":
-    team_mapping_path = "models/random_forest_model_team_mapping.pkl"
-    map_mapping_path = "models/random_forest_model_map_mapping.pkl"
+    team_mapping_path = "models/team_mapping.pkl"
+    map_mapping_path = ""
     
     # View mappings
     view_team_mapping(team_mapping_path)
-    view_map_mapping(map_mapping_path)
+    #view_map_mapping(map_mapping_path)

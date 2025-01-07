@@ -131,9 +131,9 @@ if __name__ == '__main__':
     file2 = "data/2021_VCT_NA_Stage1Challengers3.csv"
     output_file = "data/combined_tournaments.csv"
     
-    #combine_tournaments(file1, file2, output_file)
+    combine_tournaments(file1, file2, output_file)
     
-    if tournament_html_content:
-        match_data = scrape_tournament_history(tournament_html_content)
-        save_to_csv(match_data, 'data/2021_VCT_NA_Stage1Masters.csv')
+    #if tournament_html_content:
+        #match_data = scrape_tournament_history(tournament_html_content)
+        #save_to_csv(match_data, 'data/2021_VCT_NA_Stage1Masters.csv')
     
